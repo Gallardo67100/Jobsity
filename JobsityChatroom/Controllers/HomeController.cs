@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace JobsityChatroom.Controllers
@@ -22,6 +23,7 @@ namespace JobsityChatroom.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.UserName = HttpContext.User.Identity.Name;
             return View();
         }
 
