@@ -1,3 +1,4 @@
+using JobsityChatroom.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +32,8 @@ namespace JobsityChatroom
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
+            services.AddScoped<IMessageService, MessageService>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
