@@ -8,22 +8,22 @@
     <h4>@ViewBag.UserName</h4>
 
     <div id="chatSpace" class="border border-primary ml-auto mr-auto mt-3 mb-3 w-75 h-75 overflow-auto d-flex flex-column">
-        @for (int i = 0; i < Model.Count(); i++)
+        @foreach(var chatMessage in Model)
         {
-            if (Model[i].UserName == ViewBag.UserName)
+            if (chatMessage.UserName == ViewBag.UserName)
             {
                 <div class="mt-2 ml-auto mr-2 border border-primary rounded bg-light pl-4 pr-4 pt-1 pb-1">
                     <small class="d-block text-left w-100 m-0">You said:</small>
-                    <p class="text-left font-weight-bold">@Model[i].MessageText</p>
-                    <small class="d-block w-100 text-right m-0">@Model[i].Timestamp.ToString("yyyy-MM-dd HH:mm:ss")</small>
+                    <p class="text-left font-weight-bold">@chatMessage.MessageText</p>
+                    <small class="d-block w-100 text-right m-0">@chatMessage.Timestamp.ToString("yyyy-MM-dd HH:mm:ss")</small>
                 </div>
             }
             else
             {
                 <div class="mt-2 mr-auto ml-2 border border-primary rounded bg-light pl-4 pr-4 pt-1 pb-1">
-                    <small class="d-block text-left w-100 m-0">@Model[i].UserName said:</small>
-                    <p class="text-left font-weight-bold">@Model[i].MessageText</p>
-                    <small class="d-block w-100 text-right m-0">@Model[i].Timestamp.ToString("yyyy-MM-dd HH:mm:ss")</small>
+                    <small class="d-block text-left w-100 m-0">@chatMessage.UserName said:</small>
+                    <p class="text-left font-weight-bold">@chatMessage.MessageText</p>
+                    <small class="d-block w-100 text-right m-0">@chatMessage.Timestamp.ToString("yyyy-MM-dd HH:mm:ss")</small>
                 </div>
             }
 

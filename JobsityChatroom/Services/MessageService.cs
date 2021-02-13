@@ -20,7 +20,7 @@ namespace JobsityChatroom.Services
 
         public List<MessageEntity> GetAll()
         {
-            return dbcontext.Messages.ToList();
+            return dbcontext.Messages.ToList().OrderBy(m => m.Timestamp).TakeLast(5).ToList();
         }
 
         public async Task Send(string userName, string message)
