@@ -42,6 +42,7 @@
     <script>
         $(document).ready(() => {
             window.currentUser = '@ViewBag.UserName';
+            $("#chatSpace").animate({ scrollTop: $('#chatSpace').prop("scrollHeight") }, 500);
         })
 
         $("#sendMessageForm").submit((evt) => {
