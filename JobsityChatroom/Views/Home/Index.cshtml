@@ -2,7 +2,32 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
+<div class="text-center vh-100">
     <h1 class="display-4">Welcome to Jobsity Chatroom</h1>
     <h4 class="">@ViewBag.UserName</h4>
+
+    <div class="border border-primary ml-auto mr-auto mt-3 mb-3 w-75 h-75">
+
+    </div>
+    <form id="sendMessageForm" class="ml-auto mr-auto w-75 d-flex flex-row">
+        <input type="text" id="messageInput" name="messageText" class="form-control" placeholder="Say something! Everybody is waiting..." />
+        <button type="submit" class="btn btn-info ml-3 pl-3 pr-3">Send</button>
+    </form>
 </div>
+
+@section scripts {
+
+    <script>
+        $("#sendMessageForm").submit((evt) => {
+            evt.preventDefault();
+            let messageText = $("#messageInput").val();
+
+            $.post("/Home/SendMessage",
+                { messageText: messageText },
+                (data) => {
+                    alert("Message sent!");
+                },
+                "json");
+        });
+    </script>
+}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JobsityChatroom.Areas.Identity.Data;
+using JobsityChatroom.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -11,17 +12,23 @@ namespace JobsityChatroom.Data
 {
     public class JobsityChatroomContext : IdentityDbContext<JobsityChatroomUser>
     {
+        public DbSet<MessageEntity> Messages { get; set; }
         public JobsityChatroomContext(DbContextOptions<JobsityChatroomContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+
+            //TODO: Relocate context
+            builder.Entity<MessageEntity>()
+                .HasKey(m => new { m.Timestamp, m.MessageText });
+            builder.Entity<MessageEntity>()
+                .Property(m => m.Timestamp)
+                .HasDefaultValueSql("getdate()");
         }
     }
 }

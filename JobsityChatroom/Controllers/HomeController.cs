@@ -21,10 +21,18 @@ namespace JobsityChatroom.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             ViewBag.UserName = HttpContext.User.Identity.Name;
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult SendMessage(string messageText)
+        {
+            // Do something
+            return Json(messageText);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
