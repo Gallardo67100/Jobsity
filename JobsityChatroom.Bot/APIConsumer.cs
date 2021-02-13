@@ -10,6 +10,8 @@ namespace JobsityChatroom.Bot
 {
     public static class APIConsumer
     {
+        private static HttpClient httpClient { get;  set; }
+
         /// <summary>
         /// Calls the API to get information about the stock wanted.
         /// </summary>
@@ -29,12 +31,22 @@ namespace JobsityChatroom.Bot
             }
         }
 
+        public static HttpClient GetClient()
+        {
+            if(APIConsumer.httpClient == null)
+            {
+                APIConsumer.httpClient = new HttpClient();
+            }
+            
+            return APIConsumer.httpClient;
+
+        }
+
         private static async Task<StockDTO> CallApi(string stockCode)
         {
-            var httpClient = new HttpClient();
             var url = "https://stooq.com/q/l/?s=" + stockCode + "&f=sd2t2ohlcv&h&e=csv";
 
-            var response = await httpClient.GetAsync(url);
+            var response = await APIConsumer.GetClient().GetAsync(url);
 
             if(response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -55,6 +67,13 @@ namespace JobsityChatroom.Bot
 
             // Split the CSV on each end of line 
             var stringsArray = csvAsString.Split("\n");
+
+            // If the stock couldn't be found, there's an exception
+            if (stringsArray.Length <= 1)
+            {
+                throw new ArgumentException("I think that stock code doesn't exists, please try again with a valid stock code.");
+            }
+
 
             // Find the indexes for the needed information inside the CSV using the headers as reference
             stockCodeIndex = Array.IndexOf(stringsArray[0].Split(','), "Symbol");

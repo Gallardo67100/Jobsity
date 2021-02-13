@@ -40,8 +40,7 @@ namespace JobsityChatroom.Bot
                         }
 
                         // Send Message
-                        using(var respConnection = factory.CreateConnection())
-                        using(var respChannel = respConnection.CreateModel())
+                        using(var respChannel = connection.CreateModel())
                         {
                             var resBody = Encoding.UTF8.GetBytes(responseMessage);
                             channel.BasicPublish(exchange: "",
