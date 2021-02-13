@@ -34,9 +34,11 @@ namespace JobsityChatroom
             });
 
             services.AddScoped<IMessageService, MessageService>();
+            services.AddSingleton<ChatroomHub>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +69,7 @@ namespace JobsityChatroom
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<ChatroomHub>("/chatroomhub");
             });
         }
     }

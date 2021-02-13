@@ -10,10 +10,12 @@ namespace JobsityChatroom.Services
     public class MessageService : IMessageService
     {
         private readonly JobsityChatroomContext dbcontext;
+        private readonly ChatroomHub hub;
 
-        public MessageService(JobsityChatroomContext dbcontext)
+        public MessageService(JobsityChatroomContext dbcontext, ChatroomHub hub)
         {
             this.dbcontext = dbcontext;
+            this.hub = hub;
         }
 
         public List<MessageEntity> GetAll()
@@ -21,12 +23,13 @@ namespace JobsityChatroom.Services
             return dbcontext.Messages.ToList();
         }
 
-        public Task Send(string userName, string message)
+        public async Task Send(string userName, string message)
         {
             var newMessage = new MessageEntity() { UserName = userName, MessageText = message };
 
             dbcontext.Messages.Add(newMessage);
-            return dbcontext.SaveChangesAsync();
+            await hub.SendMessage(userName, message, DateTime.Now);
+            await dbcontext.SaveChangesAsync();
         }
     }
 }
