@@ -27,8 +27,9 @@ namespace JobsityChatroom.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            var storedMessages = messageService.GetAll();
             ViewBag.UserName = HttpContext.User.Identity.Name;
-            return View();
+            return View(storedMessages);
         }
 
         [HttpPost]

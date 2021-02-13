@@ -1,13 +1,31 @@
-﻿@{
+﻿@model List<JobsityChatroom.Entities.MessageEntity>;
+@{
     ViewData["Title"] = "Home";
 }
 
 <div class="text-center vh-100">
     <h1 class="display-4">Welcome to Jobsity Chatroom</h1>
-    <h4 class="">@ViewBag.UserName</h4>
+    <h4>@ViewBag.UserName</h4>
 
-    <div class="border border-primary ml-auto mr-auto mt-3 mb-3 w-75 h-75">
+    <div class="border border-primary ml-auto mr-auto mt-3 mb-3 w-75 h-75 overflow-auto d-flex flex-column">
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            if (i % 2 == 0)
+            {
+                <div class="mt-2 ml-auto border border-primary rounded bg-light pl-4 pr-4 pt-1 pb-1">
+                    <label class="w-100 text-right m-0">@Model[i].UserName said:</label>
+                    <p class="text-left">@Model[i].MessageText</p>
+                </div>
+            }
+            else
+            {
+                <div class="mt-2 mr-auto border border-primary rounded bg-light pl-4 pr-4 pt-1 pb-1">
+                    <label class="w-100 m-0">@Model[i].UserName said:</label>
+                    <p class="text-left">@Model[i].MessageText</p>
+                </div>
+            }
 
+        }
     </div>
     <form id="sendMessageForm" class="ml-auto mr-auto w-75 d-flex flex-row">
         <input type="text" id="messageInput" name="messageText" class="form-control" placeholder="Say something! Everybody is waiting..." />
@@ -24,8 +42,8 @@
 
             $.post("/Home/SendMessage",
                 { messageText: messageText },
-                (data) => {
-                    
+                () => {
+                    // nothing to do
                 },
                 "json");
         });

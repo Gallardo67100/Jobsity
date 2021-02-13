@@ -16,6 +16,11 @@ namespace JobsityChatroom.Services
             this.dbcontext = dbcontext;
         }
 
+        public List<MessageEntity> GetAll()
+        {
+            return dbcontext.Messages.ToList();
+        }
+
         public Task Send(string userName, string message)
         {
             var newMessage = new MessageEntity() { UserName = userName, MessageText = message };
