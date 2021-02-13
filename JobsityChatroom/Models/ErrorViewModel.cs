@@ -1,5 +1,3 @@
-using System;
-
 namespace JobsityChatroom.Models
 {
     public class ErrorViewModel
