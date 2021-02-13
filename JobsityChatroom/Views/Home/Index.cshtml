@@ -51,7 +51,7 @@
             $.post("/Home/SendMessage",
                 { messageText: messageText },
                 () => {
-                    // nothing to do here
+                    $("#messageInput").val("");
                 },
                 "json");
         });
