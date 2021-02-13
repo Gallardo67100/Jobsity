@@ -17,11 +17,13 @@ namespace JobsityChatroom.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IMessageService messageService;
+        private readonly IRabbitMQService rabbitMQService;
 
-        public HomeController(ILogger<HomeController> logger, IMessageService messageService)
+        public HomeController(ILogger<HomeController> logger, IMessageService messageService, IRabbitMQService rabbitMQService)
         {
             _logger = logger;
             this.messageService = messageService;
+            this.rabbitMQService = rabbitMQService;
         }
 
         [HttpGet]
@@ -35,7 +37,14 @@ namespace JobsityChatroom.Controllers
         [HttpPost]
         public async Task<JsonResult> SendMessage(string messageText)
         {
-            await messageService.Send(HttpContext.User.Identity.Name, messageText);
+            if (!messageText.StartsWith("/"))
+            {
+                await messageService.Send(HttpContext.User.Identity.Name, messageText);
+            }
+            else
+            {
+                rabbitMQService.SendToQueue(messageText);
+            }
             return Json(null);
         }
 

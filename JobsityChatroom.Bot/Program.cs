@@ -17,8 +17,8 @@ namespace JobsityChatroom.Bot
                 using (var connection = factory.CreateConnection())
                 using (var channel = connection.CreateModel())
                 {
-                    channel.QueueDeclare(queue: ConfigurationManager.AppSettings["RabbitMQQueueName"],
-                                         durable: true,
+                    channel.QueueDeclare(queue: ConfigurationManager.AppSettings["RabbitMQCommandsQueue"],
+                                         durable: false,
                                          exclusive: false,
                                          autoDelete: false,
                                          arguments: null);
@@ -27,19 +27,31 @@ namespace JobsityChatroom.Bot
                     consumer.Received += (model, ea) =>
                     {
                         var body = ea.Body.ToArray();
-                        var stockCode = Encoding.UTF8.GetString(body);
+                        var requestMessage = Encoding.UTF8.GetString(body);
+                        var responseMessage = "";
 
-                        var responseMessage = APIConsumer.GetStockInformation(stockCode).Result;
+                        if (requestMessage.StartsWith("/stock="))
+                        {
+                            responseMessage = APIConsumer.GetStockInformation(requestMessage.Substring(7)).Result;
+                        }
+                        else
+                        {
+                            responseMessage = "I'm sorry but I can't understand that command, try with /stock";
+                        }
 
                         // Send Message
-                        body = Encoding.UTF8.GetBytes(responseMessage);
-                        channel.BasicPublish(exchange: "",
-                                             routingKey: ConfigurationManager.AppSettings["RabbitMQQueueName"],
-                                             basicProperties: null,
-                                             body: body);
+                        using(var respConnection = factory.CreateConnection())
+                        using(var respChannel = respConnection.CreateModel())
+                        {
+                            var resBody = Encoding.UTF8.GetBytes(responseMessage);
+                            channel.BasicPublish(exchange: "",
+                                                 routingKey: ConfigurationManager.AppSettings["RabbitMQResponsesQueue"],
+                                                 basicProperties: null,
+                                                 body: resBody);
+                        }
 
                     };
-                    channel.BasicConsume(queue: ConfigurationManager.AppSettings["RabbitMQQueueName"],
+                    channel.BasicConsume(queue: ConfigurationManager.AppSettings["RabbitMQCommandsQueue"],
                                          autoAck: true,
                                          consumer: consumer);
 

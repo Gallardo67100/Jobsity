@@ -1,3 +1,4 @@
+using JobsityChatroom.Properties;
 using JobsityChatroom.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,8 +35,15 @@ namespace JobsityChatroom
                 options.Cookie.IsEssential = true;
             });
 
-            services.AddScoped<IMessageService, MessageService>();
+            var rabbitMQSettings = new RabbitMQSettings();
+            Configuration.GetSection("RabbitMQ").Bind(rabbitMQSettings);
+
+            services.AddSingleton<RabbitMQSettings>(rabbitMQSettings);
+            services.AddSingleton<ConnectionFactory>( x => new ConnectionFactory() { HostName = rabbitMQSettings.HostName });
             services.AddSingleton<ChatroomHub>();
+
+            services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<IRabbitMQService, RabbitMQService>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
