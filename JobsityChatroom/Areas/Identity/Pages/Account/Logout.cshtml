@@ -5,9 +5,20 @@
 }
 
 <header>
-    <form method="post">
-        <button type="submit" class="btn btn-sm btn-danger">Logout</button>
-    </form>
     <h1>@ViewData["Title"]</h1>
-    <p>You have successfully logged out of the application.</p>
+    <p>Do you really want to logout? Everybody will miss you arround here</p>
+    <form method="post">
+        <button type="submit" class="btn btn-danger m-auto">Logout</button>
+        <button type="button" onclick="backHome()" class="btn btn-outline-info m-auto">Keep chating</button>
+    </form>
 </header>
+
+@section scripts {
+
+    <script>
+        function backHome() {
+            window.location.href = "/";
+        }
+    </script>
+
+}
