@@ -17,7 +17,7 @@ namespace JobsityChatroom.Bot
         /// </summary>
         /// <param name="stockCode">The desired stock's code</param>
         /// <returns>A message informing the value of the stock</returns>
-        public static async Task<string> GetStockInformation(string stockCode)
+        public static async Task<string> Consume(string stockCode)
         {
             try
             {

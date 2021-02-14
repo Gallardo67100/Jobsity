@@ -3,6 +3,7 @@ using RabbitMQ.Client.Events;
 using System;
 using System.Text;
 using System.Configuration;
+using System.Threading.Tasks;
 
 namespace JobsityChatroom.Bot
 {
@@ -30,9 +31,14 @@ namespace JobsityChatroom.Bot
                         var requestMessage = Encoding.UTF8.GetString(body);
                         var responseMessage = "";
 
-                        if (requestMessage.StartsWith("/stock="))
+                        // Change the message to upper case, to avoid being case-sensitive
+                        var command = requestMessage.Split('=')[0].ToUpper();
+                        var param = requestMessage.Split('=')[1].ToUpper();
+
+                        if (KnownCommands.KnowsCommand(command))
                         {
-                            responseMessage = APIConsumer.GetStockInformation(requestMessage.Substring(7)).Result;
+                            var task = (Task<string>)Type.GetType(KnownCommands.GetHandlerName(command)).GetMethod("Consume").Invoke(null, new object[] { param });
+                            responseMessage = task.Result;
                         }
                         else
                         {
