@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace JobsityChatroom.Controllers
@@ -31,17 +32,25 @@ namespace JobsityChatroom.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SendMessage(string messageText)
+        public async Task<IActionResult> SendMessage(string messageText)
         {
-            if (!messageText.StartsWith("/"))
+            try
             {
-                await messageService.Send(HttpContext.User.Identity.Name, messageText);
+                if (!messageText.StartsWith("/"))
+                {
+                    await messageService.Send(HttpContext.User.Identity.Name, messageText);
+                }
+                else
+                {
+                    rabbitMQService.SendToQueue(messageText);
+                }
+                return Ok();
             }
-            else
+            catch (System.Exception ex)
             {
-                rabbitMQService.SendToQueue(messageText);
+                _logger.LogError(ex.Message);
+                return StatusCode(int.Parse(HttpStatusCode.InternalServerError.ToString()));
             }
-            return Json(null);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
