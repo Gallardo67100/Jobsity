@@ -44,12 +44,13 @@ namespace JobsityChatroom.Controllers
                 {
                     rabbitMQService.SendToQueue(messageText);
                 }
-                return Ok();
+
+                return StatusCode((int)HttpStatusCode.OK);
             }
             catch (System.Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return StatusCode(int.Parse(HttpStatusCode.InternalServerError.ToString()));
+                return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
 

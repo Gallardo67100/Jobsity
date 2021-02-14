@@ -28,8 +28,11 @@ namespace JobsityChatroom.Services
             var newMessage = new MessageEntity() { UserName = userName, MessageText = message };
 
             dbcontext.Messages.Add(newMessage);
-            await hub.SendMessage(userName, message, DateTime.Now);
-            await dbcontext.SaveChangesAsync();
+            
+            if((await dbcontext.SaveChangesAsync()) == 1)
+            {
+                await hub.SendMessage(userName, message, DateTime.Now);
+            }
         }
     }
 }

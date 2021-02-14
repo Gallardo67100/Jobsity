@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobsityChatroom", "JobsityChatroom\JobsityChatroom.csproj", "{A44A0C72-9911-4346-8925-147E26285CA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobsityChatroom.Bot", "JobsityChatroom.Bot\JobsityChatroom.Bot.csproj", "{C00F91C2-FC99-4853-9137-1790CFF52108}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobsityChatroom.Bot", "JobsityChatroom.Bot\JobsityChatroom.Bot.csproj", "{C00F91C2-FC99-4853-9137-1790CFF52108}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobsityChatroom.Tests", "JobsityChatroom.Tests\JobsityChatroom.Tests.csproj", "{EAA095F3-8A3B-45CD-A812-9691DA3989FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C00F91C2-FC99-4853-9137-1790CFF52108}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C00F91C2-FC99-4853-9137-1790CFF52108}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C00F91C2-FC99-4853-9137-1790CFF52108}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAA095F3-8A3B-45CD-A812-9691DA3989FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAA095F3-8A3B-45CD-A812-9691DA3989FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAA095F3-8A3B-45CD-A812-9691DA3989FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAA095F3-8A3B-45CD-A812-9691DA3989FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
