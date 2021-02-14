@@ -69,7 +69,7 @@ namespace JobsityChatroom.Bot
             var stringsArray = csvAsString.Split("\n");
 
             // If the stock couldn't be found, there's an exception
-            if (stringsArray.Length <= 1)
+            if (stringsArray.Length <= 2)
             {
                 throw new ArgumentException("I think that stock code doesn't exists, please try again with a valid stock code.");
             }

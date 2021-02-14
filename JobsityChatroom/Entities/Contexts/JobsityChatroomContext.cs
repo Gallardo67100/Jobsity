@@ -1,5 +1,4 @@
-﻿using JobsityChatroom.Areas.Identity.Data;
-using JobsityChatroom.Entities;
+﻿using JobsityChatroom.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
