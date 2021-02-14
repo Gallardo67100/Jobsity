@@ -17,7 +17,6 @@ namespace JobsityChatroom.Data
         {
             base.OnModelCreating(builder);
 
-            //TODO: Relocate context
             builder.Entity<MessageEntity>()
                 .HasKey(m => new { m.Timestamp, m.MessageText });
             builder.Entity<MessageEntity>()

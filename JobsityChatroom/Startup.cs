@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using System;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 
 namespace JobsityChatroom
 {
@@ -41,12 +43,17 @@ namespace JobsityChatroom
             // .Net Identity
             services.AddDefaultIdentity<JobsityChatroomUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<JobsityChatroomContext>();
+            services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme,
+                    opt =>
+                    {
+                        opt.LoginPath = "/Account/Login";
+                    });
 
             // RabbitQM Setup
             var rabbitMQSettings = new RabbitMQSettings();
             Configuration.GetSection("RabbitMQ").Bind(rabbitMQSettings);
             services.AddSingleton<RabbitMQSettings>(rabbitMQSettings);
-            services.AddSingleton<ConnectionFactory>( x => new ConnectionFactory() { HostName = rabbitMQSettings.HostName });
+            services.AddSingleton<ConnectionFactory>(x => new ConnectionFactory() { HostName = rabbitMQSettings.HostName });
             services.AddSingleton<ChatroomHub>();
 
             // Services injection
