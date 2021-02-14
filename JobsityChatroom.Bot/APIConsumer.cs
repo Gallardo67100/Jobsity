@@ -12,6 +12,17 @@ namespace JobsityChatroom.Bot
     {
         private static HttpClient httpClient { get;  set; }
 
+        public static HttpClient GetClient()
+        {
+            if (APIConsumer.httpClient == null)
+            {
+                APIConsumer.httpClient = new HttpClient();
+            }
+
+            return APIConsumer.httpClient;
+
+        }
+
         /// <summary>
         /// Calls the API to get information about the stock wanted.
         /// </summary>
@@ -29,17 +40,6 @@ namespace JobsityChatroom.Bot
             {
                 return ex.Message;
             }
-        }
-
-        public static HttpClient GetClient()
-        {
-            if(APIConsumer.httpClient == null)
-            {
-                APIConsumer.httpClient = new HttpClient();
-            }
-            
-            return APIConsumer.httpClient;
-
         }
 
         private static async Task<StockDTO> CallApi(string stockCode)
