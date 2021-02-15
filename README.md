@@ -7,7 +7,8 @@ Jobsity Chatroom is a .Net Core browser based chatroom that let you chat with ot
 To get this going, we need to:
 
     1- Set up a RabbitMQ server
-    2- Change the values of the config files on both the web app and the chat bot.
+    2- Create the database, you can use the SQL Script that's in this repository, or you can use the migrations in the project, to let EF do its job.
+    3- Change the values of the config files on both the web app and the chat bot.
 
 On the web application we need to set up the connection string pointing to the database, and the RabbitMQ server name.
 
