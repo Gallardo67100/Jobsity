@@ -39,4 +39,4 @@ On the chatbot, change the RabbitMQ server name.
 
 The queue names **MUST** be the same on both projects.
 
-After setting this things up, we have to deploy both applications in a server that can communicate with the RabbitMQ server.
+After setting this things up, we have to deploy both applications in a server that can communicate with the RabbitMQ server and start running the chat bot.
